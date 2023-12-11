@@ -5,6 +5,8 @@ import com.daykemit.entity.Role;
 import com.daykemit.entity.User;
 import com.daykemit.entity.UserPrinciple;
 import com.daykemit.entity.dto.UserDTO;
+import com.daykemit.repository.RoleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -18,12 +20,14 @@ import java.util.Set;
 @Service
 public class UserService implements UserDetailsService {
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     public static List<User> listUser = new ArrayList<>();
     public static List<Role> listRole = new ArrayList<>();
 
     public UserService() {
-        listRole.add(new Role(1L, "ROLE_ADMIN"));
-        listRole.add(new Role(2L, "ROLE_USER"));
+        listRole = roleRepository.findAll();
 
         String password = "$2a$10$xMq9EwZvdKUuvgiaM2T1Iuw9A1EGXVZaCIUPEwn1Isa9ffvPqNabe";
         User userKai = new User(1L, "kai", password);
